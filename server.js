@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 ConnectDB();
 router(app);
 
-const PORT_SV = configuration.PORT_SV;
+const PORT_SV = process.env.PORT || configuration.PORT_SV;
 app.listen(PORT_SV, () => {
   console.log("Server is running at port: ", PORT_SV);
 });
