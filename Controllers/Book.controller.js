@@ -195,7 +195,7 @@ module.exports.getBookByCategory = async (req, res) => {
         categoty: req.params.category,
       },
     });
-    if (!book) {
+    if (book.length == 0) {
       return res
         .status(404)
         .json(
