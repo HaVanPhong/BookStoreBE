@@ -187,3 +187,30 @@ module.exports.getBookById = async (req, res) => {
       .json(new ErrorResponse(500, `Lỗi server: ${error.message}`));
   }
 };
+
+module.exports.getBookByCategory = async (req, res) => {
+  try {
+    let book = await Book.findAll({
+      where: {
+        categoty: req.params.category,
+      },
+    });
+    if (!book) {
+      return res
+        .status(404)
+        .json(
+          new ErrorResponse(
+            404,
+            `Không tìm thấy sách của thể loại: ${req.params.category}`
+          )
+        );
+    }
+    return res
+      .status(200)
+      .json(new ResponseEntity(200, "Tìm kiếm thành công", book));
+  } catch (error) {
+    res
+      .status(500)
+      .json(new ErrorResponse(500, `Lỗi server: ${error.message}`));
+  }
+};
