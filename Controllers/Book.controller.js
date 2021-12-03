@@ -1,19 +1,32 @@
 const { Book } = require("../sequelize");
 const ErrorResponse = require("../Response/ErrorResponse");
 const ResponseEntity = require("../Response/EntityResponse");
-const { response } = require("express");
+const { Op } = require("sequelize");
 
 //GET
 module.exports.getAllBook = async (req, res) => {
   try {
-    const books = await Book.findAll();
-    if (books.length > 0) {
-      res
-        .status(200)
-        .json(new ResponseEntity(200, "Lấy toàn bộ sách thành công", books));
-    } else {
-      throw new Error("Danh sách trống");
+    const query = req.query;
+
+    const conditions = {};
+
+    for (const key in query.like) {
+      conditions[Op.and] = {
+        [key]: {
+          [Op.like]: query.like[key],
+        },
+      };
     }
+
+    const books = await Book.findAll({
+      where: conditions,
+    });
+    if (books.length == 0) {
+      return res.status(200).json(new ErrorResponse(404, "Trống"));
+    }
+    return res
+      .status(200)
+      .json(new ResponseEntity(200, "Lấy toàn bộ sách thành công", books));
   } catch (error) {
     res
       .status(500)
