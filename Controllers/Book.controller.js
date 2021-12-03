@@ -22,7 +22,7 @@ module.exports.getAllBook = async (req, res) => {
       where: conditions,
     });
     if (books.length == 0) {
-      return res.status(200).json(new ErrorResponse(404, "Trống"));
+      return res.status(200).json(new ErrorResponse(404, "Trống" + conditions));
     }
     return res
       .status(200)
