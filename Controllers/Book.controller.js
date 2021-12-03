@@ -139,7 +139,7 @@ module.exports.getBookByPublisher = async (req, res) => {
 
     if (books.length === 0) {
       return res
-        .status(404)
+        .status(200)
         .json(
           new ErrorResponse(
             404,
@@ -197,7 +197,7 @@ module.exports.getBookByCategory = async (req, res) => {
     });
     if (book.length == 0) {
       return res
-        .status(404)
+        .status(200)
         .json(
           new ErrorResponse(
             404,
