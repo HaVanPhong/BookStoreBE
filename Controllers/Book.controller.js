@@ -114,7 +114,9 @@ module.exports.getBookByAuthor = async (req, res) => {
   try {
     let books = await Book.findAll({
       where: {
-        author: req.params.author,
+        author: {
+          [Op.substring]: req.params.author,
+        },
       },
     });
 
@@ -146,7 +148,9 @@ module.exports.getBookByPublisher = async (req, res) => {
     console.log(req.params.publisher, "hehehe");
     let books = await Book.findAll({
       where: {
-        publisher: req.params.publisher,
+        publisher: {
+          [Op.substring]: req.params.publisher,
+        },
       },
     });
 
@@ -205,7 +209,9 @@ module.exports.getBookByCategory = async (req, res) => {
   try {
     let book = await Book.findAll({
       where: {
-        categoty: req.params.category,
+        categoty: {
+          [Op.substring]: req.params.category,
+        },
       },
     });
     if (book.length == 0) {
